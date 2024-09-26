@@ -120,15 +120,18 @@ After the installer formats the partition, open up the Command Prompt by pressin
 
 ![](../images/DISM-4.png)
 
-Now, get a list of available Windows editions by running `dism /Get-WimInfo /WimFile:D:\Sources\install.wim` (substituting D with the Installer Drive Letter). This guide will use Option 6 for Windows 10 Pro.
+Look into the D:\Sources folder with the `dir install*` to see if there is a `install.wim` file or a `install.esd` file. Either can be used in the following steps.
+
+Now, get a list of available Windows editions by running `dism /Get-WimInfo /WimFile:D:\Sources\install.wim` (substituting D with the Installer Drive Letter, and changing ".wim" to ".esd" if you have an esd file). This guide will use Option 6 for Windows 10 Pro.
 
 ![](../images/DISM-5.png)
 
-You can now start the deployment process. Run `dism /Apply-Image /ImageFile:D:\Sources\install.wim /index:6 /ApplyDir:E:`, replacing "D" with the Installer Drive Letter, "6" with the Windows edition option, and "E" with the Windows Partition Drive Letter.
+You can now start the deployment process. Run `dism /Apply-Image /ImageFile:D:\Sources\install.wim /index:6 /ApplyDir:E:`, replacing "D" with the Installer Drive Letter, "6" with the Windows edition option, "E" with the Windows Partition Drive Letter and changing ".wim" to ".esd" if you have an esd file.
 
 ![](../images/DISM-6.png)
 
 Once `dism` finishes its thing, run `bcdboot E:\Windows`, substituting "E" for the drive letter of the main Windows partition to create the boot files.
+if bcdboot can't find the correct boot partition you can specify it that way `bcdboot E:\Windows /s C:\` substituting "E" for the drive letter of the main Windows partition to create the boot files and "C" for the EFI partition used to boot.
 
 ![](../images/DISM-7.png)
 
